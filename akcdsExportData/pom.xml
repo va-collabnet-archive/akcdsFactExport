@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.apelon.va.ihtsdo.wb.akcds</groupId>
+		<artifactId>akcds-export</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+
+	<groupId>com.apelon.va.ihtsdo.wb.akcds</groupId>
+	<artifactId>akcdsExportData</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>akcdsExportData</name>
+	<url>http://maven.apache.org</url>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	<build>
+		<plugins>
+            <plugin>
+			      <groupId>com.apelon.va.ihtsdo.wb.akcds</groupId>
+			      <artifactId>akcdsExportMojo</artifactId>
+			      <version>1.0-SNAPSHOT</version>
+			      <executions>
+				      <execution>
+					      <id>export-RF2</id>
+					      <goals>
+						      <goal>export-rf2</goal>
+					      </goals>
+					      <phase>generate-resources</phase>
+					      <configuration>
+						      <databasePath>/mnt/SSD/scratch/8_26_full/1/berkeley-db</databasePath>
+					      </configuration>
+				      </execution>
+			      </executions>
+		      </plugin>   
+		</plugins>
+	</build>
+</project>

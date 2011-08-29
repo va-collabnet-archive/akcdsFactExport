@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<artifactId>akcds-export</artifactId>
+		<groupId>com.apelon.va.ihtsdo.wb.akcds</groupId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+
+
+	<!-- this -->
+
+	<groupId>com.apelon.va.ihtsdo.wb.akcds</groupId>
+	<artifactId>akcdsExportMojo</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<packaging>maven-plugin</packaging>
+	<name>akcds export Mojo</name>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.maven</groupId>
+			<artifactId>maven-plugin-api</artifactId>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.ihtsdo</groupId>
+			<artifactId>wb-foundation</artifactId>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.ihtsdo</groupId>
+			<artifactId>wb-api</artifactId>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+				<groupId>org.ihtsdo</groupId>
+				<artifactId>wb-bdb</artifactId>
+				<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.xml</groupId>
+			<artifactId>jaxp-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+			
+	</dependencies>
+
+	<!-- build -->
+</project>
