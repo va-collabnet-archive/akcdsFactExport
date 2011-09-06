@@ -216,7 +216,7 @@ public class ConceptProcessor implements ProcessUnfetchedConceptDataBI
 		concepts.addLine(new String[] {createdModuleSCTId_, 
 				timeStamp_,
 				"1",
-				modelComponentModuleID,  //TODO Not sure about this... what moduleId do I use when defining a new moduleId?  Took a guess based on existing data.
+				createdModuleSCTId_,  //Yes, this is circular logic.  But John Gutai told me this is the correct way.
 				definistionStatusIdNotSufficient});
 		
 		
@@ -224,7 +224,7 @@ public class ConceptProcessor implements ProcessUnfetchedConceptDataBI
 		relationship.addLine(new String[] {addCheckDigit(uniqueId++ + namespaceIdentifier + extensionRelationship),
 				timeStamp_,
 				"1",
-				createdModuleSCTId_,  //TODO Not sure about this... what moduleId do I use when defining a new moduleId?  Took a guess based on existing data.
+				createdModuleSCTId_,
 				moduleSCTID,
 				createdModuleSCTId_,
 				"0",
@@ -236,7 +236,7 @@ public class ConceptProcessor implements ProcessUnfetchedConceptDataBI
 		description.addLine(new String[] {addCheckDigit(uniqueId++ + namespaceIdentifier + extensionDescription),
 				timeStamp_,
 				"1",
-				createdModuleSCTId_,  //TODO Not sure about this... what moduleId do I use when defining a new moduleId?  Took a guess based on existing data.
+				createdModuleSCTId_,  
 				createdModuleSCTId_,
 				"en",
 				descTypeFSN,
@@ -245,7 +245,7 @@ public class ConceptProcessor implements ProcessUnfetchedConceptDataBI
 		description.addLine(new String[] {addCheckDigit(uniqueId++ + namespaceIdentifier + extensionDescription),
 				timeStamp_,
 				"1",
-				createdModuleSCTId_,  //TODO Not sure about this... what moduleId do I use when defining a new moduleId?  Took a guess based on existing data.
+				createdModuleSCTId_,
 				createdModuleSCTId_,
 				"en",
 				descTypeSyn,
