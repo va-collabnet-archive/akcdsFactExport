@@ -25,7 +25,8 @@ public class ConceptProcessor implements ProcessUnfetchedConceptDataBI
 	//This comes from the workbench loader code
 	public static final UUID akcdsFactsRelParentUUID_ = UUID.nameUUIDFromBytes(("gov.va.spl:metadata:types:draftFactsRelationships").getBytes());
 	
-	//TODO  - made up.  This should be a 7 digit unique number, but I'm not sure what value to use.
+	//made up.  This should be a 7 digit unique number, but I'm not sure what value to use.  Keith says he doesn't care about the namespace, 
+	//so I'm leaving it as is - so it continues to generate valid RF2 (or at least, as close as we can get with the UUID substitutions in the rel file)
 	public static final String namespaceIdentifier = "2003445";  
 	
 	//This is generated in the createRF2 metadata method.
@@ -52,7 +53,16 @@ public class ConceptProcessor implements ProcessUnfetchedConceptDataBI
 		akcdsFactsRelParentNid_ = Ts.get().getConcept(akcdsFactsRelParentUUID_).getConceptNid();
 		outputDirectory_ = outputDirectory;
 		createRF2MetaData();
-		delimitedOutput_ = new RF2FileWriter(new String[] {"NDF concept", "Relation concept", "Snomed Target Concept"},
+		delimitedOutput_ = new RF2FileWriter(new String[] {
+				"member (relationship type) UUID",   //workbench relationship item
+				"collection UUID",  //akcdsFactsRelParentUUID_
+				"Referenced Component (Source) UUID",
+				"Module UUID", //generated module ID - converted to UUID
+				"Status UUID",  //status from workbench
+				"Path UUID",  //path from workbench
+				"Time",  //time from workbench
+				"Relationship Type UUID", //relType from workbench
+				"Target Component UUID"},
 					new File(outputDirectory_, "SPLFactExport.tsv"), "SPL Delimited Fact Export");
 		
 		refSetOutput_ = new RF2FileWriter(new String[] {
@@ -122,15 +132,17 @@ public class ConceptProcessor implements ProcessUnfetchedConceptDataBI
 	private void handleDraftFactConcept(I_GetConceptData c, I_RelVersioned<RelationshipAnalogBI<?>> rel) throws IOException
 	{
 		AKCDSRels_++;
-		//member UUID, collection UUID, referenced component UUID, Module UUID, Status UUID, Path UUID, Time, nid 1 uuid, nid 2 uuid
-		
+		//See creation of delimitedOutput for more details on fields.
 		delimitedOutput_.addLine(new String[] {
-				c.toString(), 
-				Ts.get().getConcept(rel.getTypeNid()).toString(), 
-				Ts.get().getConcept(rel.getDestinationNid()).toString()});
-		
-		//TODO - note the last three fields here are specified as SctId types.  But we are using UUID's - per Keith's say-so.
-		//So, it isn't valid RF2, but fairly close.
+				rel.getPrimUuid().toString(),  
+				akcdsFactsRelParentUUID_.toString(),  
+				c.getPrimUuid().toString(),
+				UUID.nameUUIDFromBytes((createdModuleSCTId_).getBytes()).toString(), 
+				Ts.get().getConcept(rel.getStatusNid()).getPrimUuid().toString(),
+				Ts.get().getConcept(rel.getPathNid()).getPrimUuid().toString(),
+				sdf_.format(new Date(rel.getTime())),
+				Ts.get().getConcept(rel.getTypeNid()).getPrimUuid().toString(),
+				Ts.get().getConcept(rel.getDestinationNid()).getPrimUuid().toString()});
 		
 		//"id", "effectiveTime", "active", "moduleId", "refSetId", "referencedComponentId", "targetComponentId"
 		refSetOutput_.addLine(new String[] {  
@@ -141,7 +153,9 @@ public class ConceptProcessor implements ProcessUnfetchedConceptDataBI
 				Ts.get().getConcept(rel.getTypeNid()).getPrimUuid().toString(),
 				c.getPrimUuid().toString(),
 				Ts.get().getConcept(rel.getDestinationNid()).getPrimUuid().toString()});
-				
+			
+		//Note the last three fields here are specified as SctId types in the RF2 spec.  But we are using UUID's - per Keith's say-so.
+		//So, it isn't valid RF2, but fairly close.
 	}
 	
 	@SuppressWarnings("unused")
