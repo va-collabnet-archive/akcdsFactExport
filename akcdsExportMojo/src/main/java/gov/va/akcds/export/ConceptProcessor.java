@@ -27,7 +27,7 @@ public class ConceptProcessor implements ProcessUnfetchedConceptDataBI
 	
 	//made up.  This should be a 7 digit unique number, but I'm not sure what value to use.  Keith says he doesn't care about the namespace, 
 	//so I'm leaving it as is - so it continues to generate valid RF2 (or at least, as close as we can get with the UUID substitutions in the rel file)
-	public static final String namespaceIdentifier = "2003445";  
+	public static final String namespaceIdentifier_ = "2003445";  
 	
 	//This is generated in the createRF2 metadata method.
 	private static String createdModuleSCTId_ = "";  
@@ -45,10 +45,12 @@ public class ConceptProcessor implements ProcessUnfetchedConceptDataBI
 	
 	private RF2FileWriter delimitedOutput_;
 	private RF2FileWriter refSetOutput_;
+	private RDF rdf_;
 	
 
 	public ConceptProcessor(File outputDirectory) throws IOException
 	{
+		rdf_ = new RDF();
 		allConcepts = Ts.get().getAllConceptNids();
 		akcdsFactsRelParentNid_ = Ts.get().getConcept(akcdsFactsRelParentUUID_).getConceptNid();
 		outputDirectory_ = outputDirectory;
@@ -73,12 +75,13 @@ public class ConceptProcessor implements ProcessUnfetchedConceptDataBI
 				"refSetId", 
 				"referencedComponentId", 
 				"targetComponentId"},
-				new File(outputDirectory_, "der2_Refset_AssociationReferenceSnapshot_" + namespaceIdentifier + "_" + timeStamp_ + ".tsv"),
+				new File(outputDirectory_, "der2_Refset_AssociationReferenceSnapshot_" + namespaceIdentifier_ + "_" + timeStamp_ + ".tsv"),
 				"RF2 Refset File");
 	}
 	
 	public void shutdown() throws IOException
 	{
+		rdf_.export(outputDirectory_);
 		delimitedOutput_.close();
 		refSetOutput_.close();
 		ConsoleUtil.println("Viewed " + scannedConcepts_ + " concepts");
@@ -156,6 +159,8 @@ public class ConceptProcessor implements ProcessUnfetchedConceptDataBI
 			
 		//Note the last three fields here are specified as SctId types in the RF2 spec.  But we are using UUID's - per Keith's say-so.
 		//So, it isn't valid RF2, but fairly close.
+		
+		rdf_.addConcept(c, rel);
 	}
 	
 	@SuppressWarnings("unused")
@@ -194,7 +199,7 @@ public class ConceptProcessor implements ProcessUnfetchedConceptDataBI
 				"active", 
 				"moduleId", 
 				"definitionStatusId"}, 
-				new File(outputDirectory_, "sct_Concept_Snapshot_" + namespaceIdentifier + "_" + timeStamp_ + ".tsv"), 
+				new File(outputDirectory_, "sct_Concept_Snapshot_" + namespaceIdentifier_ + "_" + timeStamp_ + ".tsv"), 
 				"RF2 Concept File");
 		
 		RF2FileWriter relationship = new RF2FileWriter(new String[] {"id", 
@@ -207,7 +212,7 @@ public class ConceptProcessor implements ProcessUnfetchedConceptDataBI
 				"typeId", 
 				"characteristicTypeId", 
 				"modifierId"},
-				new File(outputDirectory_, "sct_Relationship_Snapshot_" + namespaceIdentifier + "_" + timeStamp_ + ".tsv"),
+				new File(outputDirectory_, "sct_Relationship_Snapshot_" + namespaceIdentifier_ + "_" + timeStamp_ + ".tsv"),
 				"RF2 Relationship File");
 		
 		RF2FileWriter description = new RF2FileWriter(new String[] {"id", 
@@ -219,13 +224,13 @@ public class ConceptProcessor implements ProcessUnfetchedConceptDataBI
 				"typeId", 
 				"term", 
 				"caseSignificanceId"},
-				new File(outputDirectory_, "sct_Description_Snapshot_" + namespaceIdentifier + "_" + timeStamp_ + ".tsv"),
+				new File(outputDirectory_, "sct_Description_Snapshot_" + namespaceIdentifier_ + "_" + timeStamp_ + ".tsv"),
 				"RF2 Description File");
 		/*
 		 * Need create a new concept to store our moduleConceptId.
 		 */  
 		 
-		createdModuleSCTId_ = addCheckDigit(uniqueId++ + namespaceIdentifier + extensionConcept);
+		createdModuleSCTId_ = addCheckDigit(uniqueId++ + namespaceIdentifier_ + extensionConcept);
 		
 		concepts.addLine(new String[] {createdModuleSCTId_, 
 				timeStamp_,
@@ -235,7 +240,7 @@ public class ConceptProcessor implements ProcessUnfetchedConceptDataBI
 		
 		
 		//And create the relationship for the concept
-		relationship.addLine(new String[] {addCheckDigit(uniqueId++ + namespaceIdentifier + extensionRelationship),
+		relationship.addLine(new String[] {addCheckDigit(uniqueId++ + namespaceIdentifier_ + extensionRelationship),
 				timeStamp_,
 				"1",
 				createdModuleSCTId_,
@@ -247,7 +252,7 @@ public class ConceptProcessor implements ProcessUnfetchedConceptDataBI
 				relTypeSome});
 		
 		//Add add the descriptions
-		description.addLine(new String[] {addCheckDigit(uniqueId++ + namespaceIdentifier + extensionDescription),
+		description.addLine(new String[] {addCheckDigit(uniqueId++ + namespaceIdentifier_ + extensionDescription),
 				timeStamp_,
 				"1",
 				createdModuleSCTId_,  
@@ -256,7 +261,7 @@ public class ConceptProcessor implements ProcessUnfetchedConceptDataBI
 				descTypeFSN,
 				"AKCDS Module Identifier Metadata Concept",
 				caseSensitive});
-		description.addLine(new String[] {addCheckDigit(uniqueId++ + namespaceIdentifier + extensionDescription),
+		description.addLine(new String[] {addCheckDigit(uniqueId++ + namespaceIdentifier_ + extensionDescription),
 				timeStamp_,
 				"1",
 				createdModuleSCTId_,
@@ -270,7 +275,7 @@ public class ConceptProcessor implements ProcessUnfetchedConceptDataBI
 		 * Now create a concept to represent our refset
 		 */
 		
-		String refSetConceptId = addCheckDigit(uniqueId++ + namespaceIdentifier + extensionConcept);
+		String refSetConceptId = addCheckDigit(uniqueId++ + namespaceIdentifier_ + extensionConcept);
 		concepts.addLine(new String[] {refSetConceptId, 
 				timeStamp_,
 				"1",
@@ -278,7 +283,7 @@ public class ConceptProcessor implements ProcessUnfetchedConceptDataBI
 				definistionStatusIdNotSufficient});
 		
 		//Create the descriptions for the refset
-		description.addLine(new String[] {addCheckDigit(uniqueId++ + namespaceIdentifier + extensionDescription),
+		description.addLine(new String[] {addCheckDigit(uniqueId++ + namespaceIdentifier_ + extensionDescription),
 				timeStamp_,
 				"1",
 				createdModuleSCTId_,  
@@ -287,7 +292,7 @@ public class ConceptProcessor implements ProcessUnfetchedConceptDataBI
 				descTypeFSN,
 				"AKCDS RXNorm to Snomed relationships refset",
 				caseSensitive});
-		description.addLine(new String[] {addCheckDigit(uniqueId++ + namespaceIdentifier + extensionDescription),
+		description.addLine(new String[] {addCheckDigit(uniqueId++ + namespaceIdentifier_ + extensionDescription),
 				timeStamp_,
 				"1",
 				createdModuleSCTId_,  
@@ -296,7 +301,7 @@ public class ConceptProcessor implements ProcessUnfetchedConceptDataBI
 				descTypeSyn,
 				"AKCDS RXNorm to Snomed relationships refset",
 				caseSensitive});
-		description.addLine(new String[] {addCheckDigit(uniqueId++ + namespaceIdentifier + extensionDescription),
+		description.addLine(new String[] {addCheckDigit(uniqueId++ + namespaceIdentifier_ + extensionDescription),
 				timeStamp_,
 				"1",
 				createdModuleSCTId_,  
@@ -307,7 +312,7 @@ public class ConceptProcessor implements ProcessUnfetchedConceptDataBI
 				caseSensitive});
 		
 		//And add the linking relationship
-		relationship.addLine(new String[] {addCheckDigit(uniqueId++ + namespaceIdentifier + extensionRelationship),
+		relationship.addLine(new String[] {addCheckDigit(uniqueId++ + namespaceIdentifier_ + extensionRelationship),
 				timeStamp_,
 				"1",
 				createdModuleSCTId_,  
