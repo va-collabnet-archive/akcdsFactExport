@@ -35,7 +35,7 @@
 					      </goals>
 					      <phase>generate-resources</phase>
 					      <configuration>
-						      <databasePath>/mnt/SSD/scratch/8_26_full/1/berkeley-db</databasePath>
+					      	  <databasePath>/mnt/SSD/scratch/9-19_full/berkeley-db</databasePath>
 					      </configuration>
 				      </execution>
 			      </executions>
