@@ -83,6 +83,7 @@ public class ConceptProcessor implements ProcessUnfetchedConceptDataBI
 	{
 		rdf_.export(outputDirectory_);
 		delimitedOutput_.close();
+		ConsoleUtil.println("Writing RDF File");
 		refSetOutput_.close();
 		ConsoleUtil.println("Viewed " + scannedConcepts_ + " concepts");
 		ConsoleUtil.println("Found " + AKCDSRels_ + " AKCDS facts");

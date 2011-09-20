@@ -1,5 +1,7 @@
 package gov.va.akcds.export;
 
+import gov.va.akcds.export.util.ConsoleUtil;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -59,7 +61,9 @@ public class RDF
 	{
 		RDFWriter rdfWriter = model_.getWriter("N3-TRIPLE");
 
-		OutputStream out = new FileOutputStream(new File(outputDirectory, "export.rdf"));
+		File file = new File(outputDirectory, "export.rdf");
+		ConsoleUtil.println("See " + file.getAbsolutePath() + " for RDF Output");
+		OutputStream out = new FileOutputStream(file);
 		rdfWriter.write(model_, out, "http://example.org/");
 		out.close();
 	}
