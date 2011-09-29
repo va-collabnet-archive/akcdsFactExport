@@ -6,6 +6,7 @@ import gov.va.akcds.export.util.VerhoeffCheck;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
@@ -48,7 +49,7 @@ public class ConceptProcessor implements ProcessUnfetchedConceptDataBI
 	private RDF rdf_;
 	
 
-	public ConceptProcessor(File outputDirectory) throws IOException
+	public ConceptProcessor(File outputDirectory) throws IOException, URISyntaxException
 	{
 		rdf_ = new RDF();
 		allConcepts = Ts.get().getAllConceptNids();
