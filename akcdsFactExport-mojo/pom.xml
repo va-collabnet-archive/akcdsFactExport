@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<artifactId>akcds-export</artifactId>
+		<artifactId>akcdsFactExport</artifactId>
 		<groupId>com.apelon.va.ihtsdo.wb.akcds</groupId>
 		<version>1.0-SNAPSHOT</version>
 	</parent>
@@ -14,10 +14,10 @@
 	<!-- this -->
 
 	<groupId>com.apelon.va.ihtsdo.wb.akcds</groupId>
-	<artifactId>akcdsExportMojo</artifactId>
+	<artifactId>akcdsFactExport-mojo</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<packaging>maven-plugin</packaging>
-	<name>akcds export Mojo</name>
+	<name>akcdsFactExport-mojo</name>
 
 	<dependencies>
 		<dependency>
