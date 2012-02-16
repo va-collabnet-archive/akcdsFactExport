@@ -66,7 +66,7 @@ public class ConceptProcessor implements ProcessUnfetchedConceptDataBI
 				"Time",  //time from workbench
 				"Relationship Type UUID", //relType from workbench
 				"Target Component UUID"},
-					new File(outputDirectory_, "SPLFactExport.tsv"), "SPL Delimited Fact Export");
+					new File(outputDirectory_, "SPLFactExport.tsv"), "SPL Delimited Fact Export", true);
 		
 		refSetOutput_ = new RF2FileWriter(new String[] {
 				"id", 
@@ -77,7 +77,7 @@ public class ConceptProcessor implements ProcessUnfetchedConceptDataBI
 				"referencedComponentId", 
 				"targetComponentId"},
 				new File(outputDirectory_, "der2_Refset_AssociationReferenceSnapshot_" + namespaceIdentifier_ + "_" + timeStamp_ + ".tsv"),
-				"RF2 Refset File");
+				"RF2 Refset File", true);
 	}
 	
 	public void shutdown() throws IOException
@@ -202,7 +202,7 @@ public class ConceptProcessor implements ProcessUnfetchedConceptDataBI
 				"moduleId", 
 				"definitionStatusId"}, 
 				new File(outputDirectory_, "sct_Concept_Snapshot_" + namespaceIdentifier_ + "_" + timeStamp_ + ".tsv"), 
-				"RF2 Concept File");
+				"RF2 Concept File", true);
 		
 		RF2FileWriter relationship = new RF2FileWriter(new String[] {"id", 
 				"effectiveTime", 
@@ -215,7 +215,7 @@ public class ConceptProcessor implements ProcessUnfetchedConceptDataBI
 				"characteristicTypeId", 
 				"modifierId"},
 				new File(outputDirectory_, "sct_Relationship_Snapshot_" + namespaceIdentifier_ + "_" + timeStamp_ + ".tsv"),
-				"RF2 Relationship File");
+				"RF2 Relationship File", true);
 		
 		RF2FileWriter description = new RF2FileWriter(new String[] {"id", 
 				"effectiveTime", 
@@ -227,7 +227,7 @@ public class ConceptProcessor implements ProcessUnfetchedConceptDataBI
 				"term", 
 				"caseSignificanceId"},
 				new File(outputDirectory_, "sct_Description_Snapshot_" + namespaceIdentifier_ + "_" + timeStamp_ + ".tsv"),
-				"RF2 Description File");
+				"RF2 Description File", true);
 		/*
 		 * Need create a new concept to store our moduleConceptId.
 		 */  

@@ -39,7 +39,24 @@
 					      </configuration>
 				      </execution>
 			      </executions>
-		      </plugin>   
+		      </plugin>
+		      <!--plugin>
+			      <groupId>com.apelon.va.ihtsdo.wb.akcds</groupId>
+			      <artifactId>akcdsFactExport-mojo</artifactId>
+			      <version>1.0-SNAPSHOT</version>
+			      <executions>
+				      <execution>
+					      <id>export-SPL</id>
+					      <goals>
+						      <goal>export-spl</goal>
+					      </goals>
+					      <phase>generate-resources</phase>
+					      <configuration>
+					      	  <databasePath>/mnt/SSD/scratch/b1/berkeley-db</databasePath>
+					      </configuration>
+				      </execution>
+			      </executions>
+		      </plugin-->   
 		</plugins>
 	</build>
 </project>

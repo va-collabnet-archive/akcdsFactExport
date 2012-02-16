@@ -14,7 +14,7 @@ import org.ihtsdo.tk.Ts;
  * 
  * @phase process-sources
  */
-public class ExportMojo extends AbstractMojo
+public class RF2RdfExportMojo extends AbstractMojo
 {
 
 	/**

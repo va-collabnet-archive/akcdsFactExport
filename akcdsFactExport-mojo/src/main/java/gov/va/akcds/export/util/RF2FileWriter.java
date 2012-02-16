@@ -13,15 +13,19 @@ public class RF2FileWriter
 	private String eol_ = "\r\n";
 	private String delimiter_ = "\t";
 	
-	public RF2FileWriter(String[] columnNames, File output, String description) throws IOException
+	public RF2FileWriter(String[] columnNames, File output, String description, boolean includeBOM) throws IOException
 	{
 		output.getParentFile().mkdirs();
 		ConsoleUtil.println("See: " + output + " for " + description);
 		
 		fos_ = new FileOutputStream(output);
-		//Java has issues with UTF-8, requiring this manual bit of crud to get the BOM char written: http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4508058
-		//Not sure if RF2 cares one way or another about the BOM.
-		fos_.write(new byte[] {(byte)0xEF, (byte)0xBB, (byte)0xBF});
+		
+		if (includeBOM)
+		{
+			//Java has issues with UTF-8, requiring this manual bit of crud to get the BOM char written: http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4508058
+			//Not sure if RF2 cares one way or another about the BOM.
+			fos_.write(new byte[] {(byte)0xEF, (byte)0xBB, (byte)0xBF});
+		}
 		writer_ = new BufferedWriter(new OutputStreamWriter(fos_, "UTF8"));
 
 		
