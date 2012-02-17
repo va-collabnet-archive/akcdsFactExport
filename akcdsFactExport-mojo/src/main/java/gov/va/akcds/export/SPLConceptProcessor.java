@@ -32,6 +32,7 @@ public class SPLConceptProcessor implements ProcessUnfetchedConceptDataBI
 	private File outputDirectory_;
 	private RF2FileWriter delimitedOutput_;
 	private long scannedConcepts_ = 0;
+	private long exportedDraftFacts_ = 0;
 	
 	UUID DRAFT_FACT_TRIPLE = getSPLConstantUUID("Draft Fact Triple");
 	UUID DRAFT_FACT_SNOMED_CONCEPT_NAME = getSPLConstantUUID("Snomed Concept Name");
@@ -83,7 +84,7 @@ public class SPLConceptProcessor implements ProcessUnfetchedConceptDataBI
 	{
 		delimitedOutput_.close();
 		ConsoleUtil.println("Viewed " + scannedConcepts_ + " concepts");
-		//ConsoleUtil.println("Found " + AKCDSRels_ + " AKCDS facts");
+		ConsoleUtil.println("wrote " + exportedDraftFacts_ + " AKCDS facts");
 	}
 
 	@Override
@@ -222,6 +223,12 @@ public class SPLConceptProcessor implements ProcessUnfetchedConceptDataBI
 						}
 					}
 				}
+				
+				if (targetCode.toLowerCase().equals(targetName.toLowerCase()))
+				{
+					targetCode = "";
+				}
+				
 				//Finally, write out our rows.
 				for (String setId : foundSetIds)
 				{
@@ -241,6 +248,7 @@ public class SPLConceptProcessor implements ProcessUnfetchedConceptDataBI
 						sb.setLength(sb.length() - 1);
 					}
 					
+					exportedDraftFacts_++;
 					delimitedOutput_.addLine(new String[] {setId, sb.toString(), drugName, relName, targetName, targetCode, curationState});
 				}
 			}
